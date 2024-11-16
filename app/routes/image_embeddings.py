@@ -17,7 +17,7 @@ class ImageInput(BaseModel):
 @router.post("/")
 async def generate_image_embeddings(data: ImageInput):
     """
-    Recebe uma URL de imagem e retorna os embeddings gerados.
+    Receive url and generate embeddings for it.
     """
     try:
         response = requests.get(data.url)
@@ -25,27 +25,27 @@ async def generate_image_embeddings(data: ImageInput):
         image = Image.open(BytesIO(response.content)).convert("RGB")
     except requests.exceptions.RequestException as e:
         raise HTTPException(
-            status_code=400, detail=f"Erro ao carregar a imagem da URL: {e}"
+            status_code=400, detail=f"Error loading image from URL: {e}"
         )
     except Exception as e:
         raise HTTPException(
-            status_code=400, detail=f"Erro ao processar a imagem: {str(e)}"
+            status_code=400, detail=f"Error processing the image: {str(e)}"
         )
 
-    # Converta a imagem para um fluxo de bytes
+    
     with BytesIO() as img_byte_arr:
         image.save(img_byte_arr, format="PNG")
-        img_byte_arr.seek(0)  # Voltar para o início do fluxo
+        img_byte_arr.seek(0)  
 
         try:
-            embeddings = clip_embd.embed_image([img_byte_arr])  # Passe o fluxo de bytes
+            embeddings = clip_embd.embed_image([img_byte_arr])  
         except Exception as e:
             raise HTTPException(
-                status_code=500, detail=f"Erro ao gerar embeddings: {str(e)}"
+                status_code=500, detail=f"Error in generating: {str(e)}"
             )
 
     return {
         "embeddings": embeddings[0],
         "dimension": len(embeddings[0]),
-        "message": "Embeddings gerados com sucesso",
+        "message": "Successfully generating embeddings",
     }

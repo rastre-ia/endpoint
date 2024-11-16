@@ -24,18 +24,18 @@ class TextInput(BaseModel):
 @router.post("/")
 async def generate_text_embeddings(data: TextInput):
     """
-    Recebe um texto e retorna os embeddings gerados.
+    Receives a text and generates embeddings for it.
     """
     try:
         embeddings = ollama_emb.embed_query(data.text)
     except Exception as e:
         raise HTTPException(
-            status_code=500, detail=f"Erro ao gerar embeddings: {str(e)}"
+            status_code=500, detail=f"Error in generating: {str(e)}"
         )
 
 
     return {
         "embeddings": embeddings,
         "dimension": len(embeddings),
-        "message": "Embeddings gerados com sucesso",
+        "message": "Successfully generating embeddings",
     }

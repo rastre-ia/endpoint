@@ -34,11 +34,11 @@ uvicorn app.main:app --reload
   MODEL_NAME="llama3.2"
   ```
 
-- After setting up MongoDB Atlas, you can use the vector search. In the folder `app/routes` run the following command:
+- After configuring MongoDB Atlas, you can test the vector search. Remember to enter your database and collection, the term you're going to search for in embedding format and to have enough entries in your collection.  In the app/test folder, run the following command:
   ```bash
-  python vector_search.py
+  python vector_search_teste.py
   ```
-
+- ***You will need to configure the `vector-index` within the Mongo Atlas platform***
 ---
 
 ## API Endpoints
@@ -64,7 +64,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
   {
     "embeddings": [...],
     "dimension": 512,
-    "message": "Embeddings gerados com sucesso"
+    "message": "Successfully generating embeddings"
   }
   ```
 
@@ -79,7 +79,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 
   ```json
   {
-    "text": "guitarra"
+    "text": "bike"
   }
   ```
 
@@ -89,7 +89,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
   {
     "embeddings": [...],
     "dimension": 2048,
-    "message": "Embeddings gerados com sucesso"
+    "message": "Successfully generating embeddings"
   }
   ```
 
@@ -145,7 +145,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
       "score": 0.80
     }
   ],
-  "message": "Vector search completed successfully",
+  "message": "Vector search successfully completed",
   "num_results": 2
   }
   ```
