@@ -27,13 +27,18 @@ uvicorn app.main:app --reload
 - The API uses **MongoDB Atlas Vector Search** for storing and querying embeddings.  
   Learn more: [MongoDB Atlas Vector Search Overview](https://www.mongodb.com/docs/atlas/atlas-vector-search/vector-search-overview/)
 - Create a `.env` file in the project root and add the following variable:
+
   ```
   MONGODB_URI=<your-mongodb-uri>
+
+  MODEL_NAME="llama3.2"
   ```
+
 - After setting up MongoDB Atlas, you can use the vector search. In the folder `app/routes` run the following command:
   ```bash
   python vector_search.py
   ```
+
 ---
 
 ## API Endpoints
@@ -125,8 +130,8 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 
 ## Notes
 
-1. Ensure that all required models are downloaded and set up before running the API.  
-2. MongoDB Atlas must be configured with the appropriate URI in the `.env` file.  
-3. Use the provided endpoints to easily integrate embeddings into your applications.  
+1. Ensure that all required models are downloaded and set up before running the API.
+2. MongoDB Atlas must be configured with the appropriate URI in the `.env` file.
+3. Use the provided endpoints to easily integrate embeddings into your applications.
 
 Enjoy using the **Embedding API**!
