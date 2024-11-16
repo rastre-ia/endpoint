@@ -14,7 +14,7 @@ app.include_router(
 app.include_router(
     text_embeddings.router, prefix="/text-embeddings", tags=["Text Embeddings"]
 )
-# app.include_router(vector_search.router, prefix="/vector-search", tags=["Vector Search"])
+app.include_router(vector_search.router, prefix="/vector-search", tags=["Vector Search"])
 
 
 @app.get("/")

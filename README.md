@@ -104,7 +104,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 
   ```json
   {
-    "text_emb_dimension": 3072,
+    "text_emb_dimension": 2048,
     "text_emb_model": "llama3.2:1b",
     "img_emb_dimension": 512,
     "img_emb_model": "ViT-B-16",
@@ -112,6 +112,43 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
   }
   ```
 
+---
+
+### 4. Vector Search
+
+- **Endpoint:**  
+  `POST http://127.0.0.1:8000/vector-search`
+
+- **JSON Request Body:**
+
+  ```json
+   {
+    "queryVector": [...],
+    "collection": "my_collection",
+    "numCandidates": 3,
+    "limit": 2
+  }
+  ```
+- **Response Example:**
+
+  ```json
+  {
+  "results": [
+    {
+      "object": "item1",
+      "objectDescription": "Item description",
+      "score": 0.85
+    },
+    {
+      "object": "item2",
+      "objectDescription": "Another item description",
+      "score": 0.80
+    }
+  ],
+  "message": "Vector search completed successfully",
+  "num_results": 2
+  }
+  ```
 ---
 
 ## Requirements
