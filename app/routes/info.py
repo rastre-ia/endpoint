@@ -1,10 +1,15 @@
 from fastapi import APIRouter
+import os
+from dotenv import load_dotenv
 
+load_dotenv()
 
 router = APIRouter()
+model = os.getenv("MODEL_NAME")
 
-TEXT_EMBEDDING_DIMENSION = 2048
-TEXT_EMBEDDING_MODEL = "llama3.2:1b"
+
+TEXT_EMBEDDING_DIMENSION = 3072  
+TEXT_EMBEDDING_MODEL = model
 
 IMG_EMBEDDING_DIMENSION = 512  
 IMG_EMBEDDING_MODEL = "ViT-B-16"
@@ -13,7 +18,7 @@ IMG_EMBEDDING_MODEL = "ViT-B-16"
 @router.get("/embedding-meta")
 async def get_embedding_meta():
     """
-    Retorna os metadados dos embeddings de imagem e texto.
+    Retrieve the metadata of the embeddings.
     """
     return {
         "text_emb_dimension": TEXT_EMBEDDING_DIMENSION,

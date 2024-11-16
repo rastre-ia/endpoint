@@ -88,7 +88,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
   ```json
   {
     "embeddings": [...],
-    "dimension": 2048,
+    "dimension": 3072,
     "message": "Successfully generating embeddings"
   }
   ```
