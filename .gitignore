@@ -1,0 +1,48 @@
+# Diretórios e arquivos de ambientes virtuais
+venv/
+.venv/
+
+# Arquivos de configuração e variáveis de ambiente
+.env
+.env.*
+
+# Arquivos e diretórios do Python
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.pdb
+
+# Logs e debug
+*.log
+*.out
+*.err
+
+# Diretórios de IDEs e editores
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Arquivos gerados por ferramentas de build ou testes
+build/
+dist/
+*.egg-info/
+*.egg
+*.coverage
+htmlcov/
+.coverage.*
+
+# Arquivos temporários
+*.tmp
+*.bak
+*.orig
+*.rej
+*.patch
+
+# Arquivos de Docker
+docker-compose.override.yml
+
+# Outros
+.DS_Store
+Thumbs.db
