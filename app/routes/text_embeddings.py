@@ -17,6 +17,7 @@ ollama_emb = OllamaEmbeddings(model=model_name)
 
 router = APIRouter()
 
+
 class TextInput(BaseModel):
     text: str
 
@@ -29,10 +30,7 @@ async def generate_text_embeddings(data: TextInput):
     try:
         embeddings = ollama_emb.embed_query(data.text)
     except Exception as e:
-        raise HTTPException(
-            status_code=500, detail=f"Error in generating: {str(e)}"
-        )
-
+        raise HTTPException(status_code=500, detail=f"Error in generating: {str(e)}")
 
     return {
         "embeddings": embeddings,
