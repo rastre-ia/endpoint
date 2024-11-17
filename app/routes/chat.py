@@ -17,6 +17,9 @@ async def chat(payload: Dict[Any, Any]):
     """
     Receives a text and generates embeddings for it.
     """
+    print("processing chat")
+    print(payload)
+
     messages = payload.get("messages")
     options = payload.get("options")
 
