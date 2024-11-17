@@ -151,6 +151,28 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
   ```
 ---
 
+### 5. Search Query Using LLM
+
+- **Endpoint:**  
+  `POST http://127.0.0.1:8000/llama-search`
+
+- **JSON Request Body:**
+
+  ```json
+  {
+    "query": "Report the items stolen in the case registered on 2024-11-17."
+  }
+  ```
+- **Response Example:**
+
+  ```json
+  {
+    "query": "Report the items stolen in the case registered on 2024-11-17",
+    "response": "Hello officer, here are the details of the case:\n1. Item description: Rolex watch\n"
+  }
+  ```
+
+---  
 ## Requirements
 
 ### Text Embeddings
