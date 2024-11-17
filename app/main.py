@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from app.routes import info, image_embeddings, text_embeddings, vector_search, chat
+from app.routes import info, image_embeddings, text_embeddings, vector_search, chat, llama_search, llama_search_2
 import os
 
 uri = os.getenv("MONGODB_URI")
@@ -20,7 +20,9 @@ app.include_router(
 
 app.include_router(chat.router, prefix="/chat", tags=["Chat"])
 
+app.include_router(llama_search.router, prefix="/llama-search", tags=["Llama Search"])
 
+app.include_router(llama_search_2.router, prefix="/llama-search-2", tags=["Llama Search 2"])
 @app.get("/")
 def root():
     return {"message": "Backend is running"}
