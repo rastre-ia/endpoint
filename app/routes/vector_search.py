@@ -44,6 +44,7 @@ async def vector_search(request: VectorSearchRequest):
         pipeline = [
             {
                 "$vectorSearch": {
+                    
                     "index": "vector_index",
                     "path": "embeddings",
                     "queryVector": query_vector,
@@ -56,7 +57,13 @@ async def vector_search(request: VectorSearchRequest):
                     "_id": 0,
                     "object": 1,
                     "objectDescription": 1,
+                    "eventDescription": 1,
+                    "eventDate": 1,
+                    "suspectCharacteristics": 1,
+                    "lat": {"$arrayElemAt": ["$location.coordinates", 1]},  
+                    "long": {"$arrayElemAt": ["$location.coordinates", 0]},  
                     "score": {"$meta": "vectorSearchScore"},
+                    
                 }
             },
         ]

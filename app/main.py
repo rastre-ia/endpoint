@@ -18,10 +18,6 @@ app.include_router(
     vector_search.router, prefix="/vector-search", tags=["Vector Search"]
 )
 
-app.include_router(
-    vector_search.router, prefix="/vector-search", tags=["Vector Search"]
-)
-
 app.include_router(chat.router, prefix="/chat", tags=["Chat"])
 
 
