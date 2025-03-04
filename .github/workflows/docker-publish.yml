@@ -1,0 +1,26 @@
+name: Build and Push Docker Image
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Login no Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build da imagem Docker
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/rastreia_api:latest .
+
+      - name: Push da imagem para o Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/rastreia_api:latest

@@ -1,39 +1,38 @@
-from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel
-from langchain_community.embeddings import OllamaEmbeddings
-import ollama
-from dotenv import load_dotenv
 import os
+import dotenv
+from fastapi import  HTTPException, APIRouter
+from pydantic import BaseModel
+from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
+dotenv.load_dotenv()
 
-load_dotenv()
-model_name = os.getenv("MODEL_NAME")
+api_key = os.getenv("GOOGLE_API_KEY")
 
-print(f"Model name: {model_name}")
+if not api_key:
+    raise Exception("GOOGLE_API_KEY não definida no arquivo .env")
 
-ollama.pull(model_name)
-
-ollama_emb = OllamaEmbeddings(model=model_name)
-
+embedding = GoogleGenerativeAIEmbeddings(
+    model="models/embedding-001",
+    google_api_key=api_key
+)
 router = APIRouter()
 
 
 class TextInput(BaseModel):
     text: str
 
-
-@router.post("/")
+@router.post("/") 
 async def generate_text_embeddings(data: TextInput):
     """
-    Receives a text and generates embeddings for it.
+    Recebe um texto e gera os embeddings utilizando o Google Generative AI Embeddings.
     """
     try:
-        embeddings = ollama_emb.embed_query(data.text)
+        embeddings = embedding.embed_query(data.text)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error in generating: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erro ao gerar os embeddings: {str(e)}")
 
     return {
         "embeddings": embeddings,
         "dimension": len(embeddings),
-        "message": "Successfully generating embeddings",
+        "message": "Embeddings gerados com sucesso!"
     }

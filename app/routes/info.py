@@ -5,10 +5,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 router = APIRouter()
-model = os.getenv("MODEL_NAME")
+model = os.getenv("GOOGLE_MODEL")
 
 
-TEXT_EMBEDDING_DIMENSION = 3072  
+TEXT_EMBEDDING_DIMENSION = 768   
 TEXT_EMBEDDING_MODEL = model
 
 IMG_EMBEDDING_DIMENSION = 512  

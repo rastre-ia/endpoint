@@ -1,26 +1,27 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from pymongo import MongoClient
-from langchain.vectorstores import MongoDBAtlasVectorSearch
+from langchain_mongodb import MongoDBAtlasVectorSearch
 from langchain.chains import RetrievalQA
-from langchain_community.embeddings import OllamaEmbeddings
-from langchain_community.llms import Ollama
+from langchain_google_genai import GoogleGenerativeAIEmbeddings , GoogleGenerativeAI
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 from langchain.prompts import PromptTemplate
-from langchain.chains import LLMChain
-
-from dotenv import load_dotenv
+import dotenv
 import os
 
-load_dotenv()
+dotenv.load_dotenv()
 
 uri = os.getenv("MONGODB_URI")
-model_name = os.getenv("MODEL_NAME")
+google_api_key = os.getenv("GOOGLE_API_KEY")  
+llm_model = os.getenv("GOOGLE_MODEL")
+
+# Conexão com o MongoDB
 client = MongoClient(uri)
 
 router = APIRouter()
 
+# Template de prompt personalizado
 custom_prompt_template = """
 Comece sempre com "Olá policial" no início de cada resposta.
 Você é um assistente especializado utilizado por policiais para fornecer dados detalhados sobre ocorrências policiais. 
@@ -39,22 +40,26 @@ Pergunta: {query}
 
 prompt = PromptTemplate(template=custom_prompt_template, input_variables=["query"])
 
-ollama_emb = OllamaEmbeddings(model=model_name)
-callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
+embeddings_model = GoogleGenerativeAIEmbeddings(
+    model="models/embedding-001",  
+    google_api_key=google_api_key
+)
 
+callback_manager = CallbackManager([StreamingStdOutCallbackHandler()])
 
 db_name = "rastreia"
 collection_name = "stolenitems"
 collection = client[db_name][collection_name]
 
 
-llm = Ollama(
-    model=model_name,
+llm = GoogleGenerativeAI(
+    model=llm_model,
+    google_api_key=google_api_key,
     callback_manager=callback_manager,
+   
 )
 
-
-
+# Função para combinar campos do documento
 def combine_fields(doc):
     combined_text = " ".join(
         str(doc.get(field, "")) for field in ["object", "objectDescription", "eventDescription", "eventDate", "suspectCharacteristics"]
@@ -64,8 +69,7 @@ def combine_fields(doc):
         combined_text += f" Latitude: {location[1]}, Longitude: {location[0]}"
     return combined_text
 
-
-index_name = "vector_index"
+index_name = "embeddings"
 vector_field_name = "embeddings"
 text_field_name = "combined_fields"
 
@@ -75,7 +79,7 @@ for doc in collection.find():
 
 vectorStore = MongoDBAtlasVectorSearch(
     collection=collection,
-    embedding=ollama_emb,
+    embedding=embeddings_model, 
     index_name=index_name,
     embedding_key=vector_field_name,
     text_key=text_field_name,
@@ -83,23 +87,29 @@ vectorStore = MongoDBAtlasVectorSearch(
 
 retriever = vectorStore.as_retriever()
 
+
 class QueryInput(BaseModel):
     query: str
 
-
 @router.post("/")
-async def llama_search(data: QueryInput):
+async def ai_search(data: QueryInput):
     """
     Recebe uma consulta e retorna a resposta gerada pela LLM.
     """
     try:
+        # Configuração da cadeia de recuperação (RetrievalQA)
+        qa = RetrievalQA.from_chain_type(
+            llm,
+            chain_type="stuff",
+            retriever=retriever,
+        )
 
+        # Formata a consulta com o template de prompt
+        formatted_query = prompt.format(query=data.query)
 
-        qa = RetrievalQA.from_chain_type(llm, 
-                                         chain_type="stuff", 
-                                         retriever=retriever,
-                                         )
-        response = qa({ "query": prompt.format(query=data.query), })
+        # Executa a consulta
+        response = qa({"query": formatted_query})
+
         return {
             "query": data.query,
             "response": response["result"],

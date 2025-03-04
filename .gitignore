@@ -6,6 +6,8 @@ venv/
 .env
 .env.*
 
+test/
+.test/
 # Arquivos e diretórios do Python
 *.pyc
 __pycache__/
