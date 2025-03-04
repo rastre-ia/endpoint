@@ -48,7 +48,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 ### 1. Generate Image Embeddings
 
 - **Endpoint:**  
-  `POST http://127.0.0.1:8000/image-embeddings`
+  `POST http://127.0.0.1:8049/image-embeddings`
 
 - **JSON Request Body:**
 
@@ -73,7 +73,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 ### 2. Generate Text Embeddings
 
 - **Endpoint:**  
-  `POST http://127.0.0.1:8000/text-embeddings/`
+  `POST http://127.0.0.1:8049/text-embeddings/`
 
 - **JSON Request Body:**
 
@@ -98,7 +98,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 ### 3. Retrieve Embedding Metadata
 
 - **Endpoint:**  
-  `GET http://127.0.0.1:8000/info/embedding-meta`
+  `GET http://127.0.0.1:8049/info/embedding-meta`
 
 - **Response Example:**
 
@@ -117,7 +117,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 ### 4. Vector Search
 
 - **Endpoint:**  
-  `POST http://127.0.0.1:8000/vector-search`
+  `POST http://127.0.0.1:8049/vector-search`
 
 - **JSON Request Body:**
 
@@ -154,7 +154,7 @@ You can use tools like **Postman** or **Thunderbird** to make requests to the AP
 ### 5. Search Query Using LLM
 
 - **Endpoint:**  
-  `POST http://127.0.0.1:8000/llama-search`
+  `POST http://127.0.0.1:8049/llama-search`
 
 - **JSON Request Body:**
 

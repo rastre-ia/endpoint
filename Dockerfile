@@ -47,7 +47,7 @@ USER appuser
 COPY . .
 
 # Expose the port that the application listens on.
-EXPOSE 8000
+EXPOSE 8049
 
 # Run the application.
-CMD uvicorn app.main:app --host 0.0.0.0 --reload --workers 4
+CMD uvicorn app.main:app --host 0.0.0.0 --reload --workers 4 --port 8049
