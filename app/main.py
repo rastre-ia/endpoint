@@ -7,8 +7,8 @@ app = FastAPI()
 
 # Adicionando a middleware CORS
 origins = [
-    "https://rastre-ia-reinaldo-kn-rastreia.vercel.app",  # Seu domínio Vercel
-    "*",  # Para permitir outras origens (remova "*" quando for para produção)
+    "https://rastre-ia-reinaldo-kn-rastreia.vercel.app",  
+    "*", 
 ]
 
 app.add_middleware(
