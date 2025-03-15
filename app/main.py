@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import ai_search, info, image_embeddings, text_embeddings, vector_search, chat
+from app.routes import ai_search, info, image_embeddings, text_embeddings, vector_search, chat, websracp
 import os
 
 app = FastAPI()
@@ -32,6 +32,7 @@ app.include_router(
 )
 app.include_router(chat.router, prefix="/chat", tags=["Chat"])
 app.include_router(ai_search.router, prefix="/ai-search", tags=["Llama Search"])
+app.include_router(websracp.router, prefix="/webscrap", tags=["Web Scraping"])
 
 @app.get("/")
 def root():
