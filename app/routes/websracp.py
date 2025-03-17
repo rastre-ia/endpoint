@@ -21,12 +21,14 @@ class Query(BaseModel):
 
 def parse_gemini_response(response: str) -> list:
     try:
-        json_match = re.search(r'\[.*\]', response, re.DOTALL)
+        json_match = re.search(r'(\[.*\])', response, re.DOTALL)
         if json_match:
-            return json.loads(json_match.group())
-        return json.loads(response)
-    except json.JSONDecodeError:
-        raise ValueError("Resposta do Gemini não contém JSON válido")
+            json_text = json_match.group(1)
+            return json.loads(json_text)
+        return json.loads(response)  
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Erro ao decodificar JSON: {str(e)}. Resposta recebida: {response}")
+
 
 @router.post("/")
 async def parse_listings(query: Query):
@@ -43,7 +45,7 @@ async def parse_listings(query: Query):
     try:
         response = requests.get(jina_url, headers=headers, timeout=60)
         response.raise_for_status()
-        markdown_content = response.text[:9000]  
+        markdown_content = response.text
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=400, detail=f"Erro ao buscar dados: {str(e)}")
 
