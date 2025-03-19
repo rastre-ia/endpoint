@@ -45,7 +45,7 @@ async def parse_listings(query: Query):
     try:
         response = requests.get(jina_url, headers=headers, timeout=60)
         response.raise_for_status()
-        markdown_content = response.text
+        markdown_content = response.text[:9000]
     except requests.exceptions.RequestException as e:
         raise HTTPException(status_code=400, detail=f"Erro ao buscar dados: {str(e)}")
 
