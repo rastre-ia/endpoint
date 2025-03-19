@@ -1,5 +1,7 @@
 docling==2.27.0
 fake_useragent==2.1.0
+open_clip_torch==2.29.0
+torch==2.5.1
 fastapi==0.115.11
 langchain==0.3.21
 langchain_community==0.3.20
